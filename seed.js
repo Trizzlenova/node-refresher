@@ -1,5 +1,5 @@
-const mongoose  = require("./mongoose"),
-      Camground = require('./models/campground'),
+const mongoose  = require("mongoose"),
+      Campground = require('./models/campground'),
       Comment   = require('./models/comment')
 
 let data = [
@@ -22,11 +22,11 @@ let data = [
 
 function seedDB() {
   // remove campgrounds
-  Campground.remove({}, function(err) {
+  Campground.deleteMany({}, function(err) {
     if(err){console.log(err)}
     console.log('removed campgrounds')
     // remove comments
-    Comment.remove({}, function(err) {
+    Comment.deleteMany({}, function(err) {
       if(err){console.log(err)}
       console.log('removed comments')
       // seed the data
@@ -42,7 +42,7 @@ function seedDB() {
             }, function(err, comment) {
               if(err){console.log(err)}
               else {
-                comment.campgrounds.push(comment)
+                campground.comments.push(comment)
                 campground.save()
                 console.log('created comment')
               }

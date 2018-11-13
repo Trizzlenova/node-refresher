@@ -3,32 +3,27 @@ const express    = require('express'),
       bodyParser = require('body-parser'),
       mongoose   = require('mongoose'),
       Campground = require('./models/campground'),
-      Comment    = require('./models/comment')
+      Comment    = require('./models/comment'),
+      seedDB     = require('./seed')
 
-mongoose.connect('mongodb://localhost/yelp_camp')
+mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true })
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+seedDB();
 
-app.get('/', function(req, res){
-  Campground.find({}, function(err, allCampgrounds) {
-    if(err){console.log(err)}
-    else{
-      res.render('index', {campgrounds:allCampgrounds})
-    }
-  })
-})
+app.get("/", function(req, res){
+    res.render("landing");
+});
 
-app.get('/campgrounds/new', function(req, res) {
-  res.render('new.ejs')
-})
-
-app.get('/campgrounds/:id', function(req, res) {
-  Campground.FindById(req.params.id, function(err, foundCampground){
-    if(err){console.log(err)}
-    else {
-      res.render('show', {campground:foundCampground})
-    }
-  })
-})
+app.get("/campgrounds", function(req, res){
+    Campground.find({}, function(err, allCampgrounds){
+       if(err){
+           console.log(err);
+       } else {
+          res.render("index",{campgrounds:allCampgrounds});
+       }
+    });
+});
 
 app.post('/campgrounds', function(req, res){
   let name = req.body.name
@@ -43,6 +38,19 @@ app.post('/campgrounds', function(req, res){
   })
 })
 
+app.get('/campgrounds/new', function(req, res) {
+  res.render('new.ejs')
+})
+
+app.get('/campgrounds/:id', function(req, res) {
+  Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground){
+    if(err){console.log(err)}
+    else {
+      console.log(foundCampground)
+      res.render('show', {campground:foundCampground})
+    }
+  })
+})
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('processing yelpcamp')
