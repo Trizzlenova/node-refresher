@@ -1,0 +1,16 @@
+{
+  "name": "comments",
+  "version": "1.0.0",
+  "description": "creating comments",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Troy Swayzee",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.11"
+  }
+}
