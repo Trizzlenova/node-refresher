@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const campgroundSchema = new mongoose.Schema({
+const CampgroundSchema = new mongoose.Schema({
   name: String,
   image: String,
   description: String,
@@ -9,6 +9,6 @@ const campgroundSchema = new mongoose.Schema({
   }]
 })
 
-const Campground = mongoose.model('Campground', campgroundSchema)
+const Campground = mongoose.model('Campground', CampgroundSchema)
 
 module.exports = Campground
