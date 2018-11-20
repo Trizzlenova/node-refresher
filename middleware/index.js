@@ -7,6 +7,7 @@ middlewareObj.checkAuth = function(req, res, next){
   if(req.isAuthenticated()) {
     Campground.findById(req.params.id, function(err, foundCampground) {
       if(err){
+        req.flash('error', 'Not Found')
         res.redirect('back')
       } else {
         if(foundCampground.author.id.equals(req.user._id)) {
@@ -30,6 +31,7 @@ middlewareObj.checkCommentAuth = function(req, res, next){
         if(foundComment.author.id.equals(req.user._id)) {
           next()
         } else {
+          req.flash('error', 'You don\'t have permission to do that')
           res.redirect('back')
         }
       }
@@ -43,6 +45,7 @@ middlewareObj.isLoggedIn = function(req, res, next) {
   if(req.isAuthenticated()) {
     return next()
   }
+  req.flash('error', 'Please Login First')
   res.redirect('/login')
 }
 
