@@ -26,6 +26,9 @@ app.use(methodOverride('_method'))
 app.use(flash())
 // seedDB();
 
+//moment.js
+app.locals.moment = require('moment')
+
 // Passport Configuration
 app.use(require('express-session')({
   secret: 'The crow sang Peggy Lee love ballads to the dolphin',
